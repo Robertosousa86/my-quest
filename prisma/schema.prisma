@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+}
+
+model Application {
+  id                      Int      @id @default(autoincrement())
+  jobPlatform             String?
+  companyName             String?
+  companyPhone            String?
+  companyEmail            String?
+  jobName                 String
+  jobDescription          String
+  jobResponsibility       String
+  jobRequirement          String
+  jobDesirableRequirement String?
+  jobBenefits             String?
+  contractType            String
+  salary                  String?
+  recruiterName           String?
+  recruiterPhone          String?
+  recruiterEmail          String?
+  feedback                String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  userId                  Int
+  user                    User     @relation(fields: [userId], references: [id])
+}
